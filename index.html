@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ollo's pixel mapper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+      background-color: #121212;
+      color: #ffffff;
+    }
+    fieldset {
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ffffff;
+      width: 80%;
+      text-align: left;
+    }
+    legend {
+      padding: 0 10px;
+      font-size: 1.2em;
+    }
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+    input {
+      margin-left: 10px;
+      padding: 5px;
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      color: #ffffff;
+    }
+    input[type="color"] {
+      padding: 0;
+      height: 30px;
+      width: 50px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #333;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #444;
+    }
+    canvas {
+      margin-top: 20px;
+      border: 1px solid #ffffff;
+      transform-origin: top left;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ollo's pixel mapper</h1>
+
+  <fieldset>
+    <legend>Grid Settings</legend>
+    <label>
+      Rows:
+      <input type="number" id="rows" value="5" min="1" oninput="updateGridSettings()">
+    </label>
+    <label>
+      Columns:
+      <input type="number" id="cols" value="5" min="1" oninput="updateGridSettings()">
+    </label>
+    <label>
+      Square Width (px):
+      <input type="number" id="squareWidth" value="200" min="1" oninput="updateGridSettings()">
+    </label>
+    <label>
+      Square Height (px):
+      <input type="number" id="squareHeight" value="200" min="1" oninput="updateGridSettings()">
+    </label>
+    <label>
+      Grid X Position (px):
+      <input type="number" id="gridX" value="0" oninput="updateGridSettings()">
+    </label>
+    <label>
+      Grid Y Position (px):
+      <input type="number" id="gridY" value="0" oninput="updateGridSettings()">
+    </label>
+
+
+
+    <label>
+      Color 1:
+      <input type="color" id="color1" value="#ff0000" oninput="updateGridSettings()">
+    </label>
+    <label>
+      Color 2:
+      <input type="color" id="color2" value="#0000ff" oninput="updateGridSettings()">
+    </label>
+    <br>
+
+
+
+    <label>
+      Enable Wiring:
+      <input type="checkbox" id="enableWiring" oninput="updateGridSettings()">
+    </label>
+    <label>
+      Port Maximum (px):
+      <input type="number" id="portMaximum" value="525000" oninput="updateGridSettings()">
+    </label>
+    <br>
+
+
+
+    <!-- Enable Toggle -->
+    <label>
+      Enable Screen Label:
+      <input type="checkbox" id="enableLabel" checked onchange="updateGridSettings()">
+    </label>
+    <!-- Slider for Label Size -->
+    <label>
+      Screen Name:
+      <input type="text" id="screenName" value="Grid Name" oninput="updateGridSettings()" >
+    </label>
+    <label>
+      Label Size:
+      <input type="range" id="labelSizeSlider" min="10" max="100" value="20" step="1" oninput="syncLabelSizeFields()">
+      <input type="number" id="labelSizeField" min="10" max="100" value="20" step="1" oninput="syncLabelSizeFields()">
+    </label>
+    <br>
+
+
+    
+    <button id="removeGridButton">Remove Selected Grid</button>
+    
+  </fieldset>
+  <button id="addScreenButton">Add Screen</button>
+  <fieldset>
+    <legend>Zoom Settings</legend>
+    <label>
+      Zoom Level:
+      <input type="range" id="zoomSlider" min="0.1" max="2" step="0.1" value="${zoomLevel}" oninput="updateZoomLevel(this.value)">
+    </label>
+  </fieldset>
+  <fieldset>
+    <legend>Download Grid</legend>
+    <button id="downloadButton">Download as PNG</button>
+  </fieldset>
+  <div style="overflow: auto;">
+    <canvas id="gridCanvas" width="3840" height="2160"></canvas>
+  </div>
+
+  <script src="GridDraw.js"></script>
+  <script src="Grid QoL.js"></script>
+  <script src="grid-drag.js"></script>
+
+</body>
+</html>
