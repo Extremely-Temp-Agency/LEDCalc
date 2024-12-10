@@ -20,6 +20,14 @@ const grids = [
   },
 ];
 let selectedGridIndex = 0; // Start by selecting the first grid
+
+window.onload = () => {
+  const canvas = document.getElementById('gridCanvas');
+  canvas.width = 3840; // Set the canvas width
+  canvas.height = 2160; // Set the canvas height
+  drawAllGrids(); // Draw the grids after setting the canvas size
+}
+
 // Function to draw all grids
 function drawAllGrids() {
   ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before drawing
@@ -234,6 +242,16 @@ function updateGridSettings() {
   drawAllGrids(); // Redraw everything
 }
 
+function updateCanvasSize() {
+  const canvas = document.getElementById('gridCanvas');
+  const width = parseInt(document.getElementById('canvasWidth').value);
+  const height = parseInt(document.getElementById('canvasHeight').value);
+
+  canvas.width = width;
+  canvas.height = height;
+
+  drawAllGrids(); // Redraw the grids after resizing
+}
 // Attach event listeners
 document.getElementById("addScreenButton").addEventListener("click", addNewGrid);
 
