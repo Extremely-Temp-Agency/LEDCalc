@@ -30,6 +30,7 @@ window.onload = () => {
 
 // Function to draw all grids
 function drawAllGrids() {
+  console.log("fresh grid")
   ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas before drawing
 
   grids.forEach((grid) => {
@@ -69,6 +70,13 @@ function drawSquares(grid) {
 // Draw wiring
 function drawWiring(grid) {
   if (!grid.enableWiring) return;
+
+  const direction = document.getElementById('direction').value;
+  if (direction === "column"){
+    console.log("columns detected")
+    drawWiringColumns(grid);
+    return;
+  }
 
   let currentWireLoad = 0;
   let wireIndex = 1;
@@ -136,6 +144,77 @@ function drawWiring(grid) {
     }
   }
 }
+function drawWiringColumns(grid) {
+  console.log("we drawing columns girl")
+  if (!grid.enableWiring) return;
+
+  let currentWireLoad = 0;
+  let wireIndex = 1;
+  let isBackward = false;
+
+  for (let col = 0; col < grid.cols; col++) {
+    const startRow = isBackward ? grid.rows - 1 : 0;
+    const endRow = isBackward ? -1 : grid.rows;
+    const step = isBackward ? -1 : 1;
+
+    const colPixelCount = grid.rows * grid.squareWidth * grid.squareHeight;
+
+    for (let row = startRow; row !== endRow; row += step) {
+      const x = grid.x + col * grid.squareWidth;
+      const y = grid.y + row * grid.squareHeight;
+      const tilePixelCount = grid.squareWidth * grid.squareHeight;
+
+      if (row + step !== endRow) {
+        drawArrow(
+          ctx,
+          x + grid.squareWidth / 2,
+          y + grid.squareHeight / 2,
+          x + grid.squareWidth / 2,
+          y + grid.squareHeight / 2 + step * grid.squareHeight,
+          Math.min(grid.squareWidth, grid.squareHeight)
+        );
+      }
+
+      if (currentWireLoad === 0) {
+        drawCircleWithText(
+          ctx,
+          x + grid.squareWidth / 2,
+          y + grid.squareHeight / 2,
+          Math.min(grid.squareWidth, grid.squareHeight) / 4,
+          `${wireIndex}`
+        );
+      }
+
+      currentWireLoad += tilePixelCount;
+
+      if (row === endRow - step) {
+        if (currentWireLoad + colPixelCount <= grid.portMaximum && col + 1 < grid.cols) {
+          drawArrow(
+            ctx,
+            x + grid.squareWidth / 2,
+            y + grid.squareHeight / 2,
+            x + grid.squareWidth + grid.squareWidth / 2,
+            y + grid.squareHeight / 2,
+            Math.min(grid.squareWidth, grid.squareHeight)
+          );
+          isBackward = !isBackward;
+        } else {
+          drawCircleWithText(
+            ctx,
+            x + grid.squareWidth / 2,
+            y + grid.squareHeight / 2,
+            Math.min(grid.squareWidth, grid.squareHeight) / 4,
+            `${wireIndex}b`
+          );
+          currentWireLoad = 0;
+          wireIndex++;
+          isBackward = false;
+        }
+      }
+    }
+  }
+}
+
 function drawArrow(ctx, fromX, fromY, toX, toY, tileSize) {
   const arrowHeadSize = tileSize / 6; // Dynamically set arrowhead size (1/6th of the tile size)
   const dx = toX - fromX; // Delta X

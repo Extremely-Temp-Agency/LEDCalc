@@ -79,7 +79,12 @@
           Enable Wiring:
           <input type="checkbox" id="enableWiring" oninput="updateGridSettings()">
         </label>
-      
+        <label for="direction">Wiring Direction:
+        <select id="direction" onchange="drawAllGrids()">
+          <option value="row">Left-Right (Rows)</option>
+          <option value="column">Up-Down (Columns)</option>
+        </select>
+      </label>
         <label>
           Port Maximum (px):
           <input type="number" id="portMaximum" value="525000" oninput="updateGridSettings()">
