@@ -14,7 +14,10 @@
     <div class="column">
       <fieldset>
         <legend>Grid Settings</legend>
-      
+        <label>
+          Screen Name:
+          <input type="text" id="screenName" value="Grid Name" oninput="updateGridSettings()">
+        </label>
         <label>
           Rows:
           <input type="number" id="rows" value="5" min="1" oninput="updateGridSettings()">
@@ -93,11 +96,6 @@
         <label>
           Enable Screen Label:
           <input type="checkbox" id="enableLabel" checked onchange="updateGridSettings()">
-        </label>
-      
-        <label>
-          Screen Name:
-          <input type="text" id="screenName" value="Grid Name" oninput="updateGridSettings()">
         </label>
       
         <label>
